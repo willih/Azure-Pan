@@ -2,10 +2,12 @@
 
 This is a repository for Azure Resoure Manager (ARM) templates to deploy VM-Series Next-Generation firewall from Palo Alto Networks in to the Azure public cloud.
 
-Expected availability dates of VM-Series in Azure Marketplace:
+[VM-Series in Azure Marketplace] (https://azure.microsoft.com/en-us/marketplace/?term=vm-series):
 
-- BYOL - Now available in [Azure Marketplace](https://azure.microsoft.com/en-us/marketplace/partners/paloaltonetworks/vmseriesbyol-template2template2-3nic-3subnetbyol)
-- PAYG - To be announced
+- VM-Series Bring Your Own License - [BYOL](https://azure.microsoft.com/en-us/marketplace/partners/paloaltonetworks/vmseries-ngfwbyol/)
+- VM-Series Pay-As-You-Go (PAYG) Hourly
+-- [Bundle 1] (https://azure.microsoft.com/en-us/marketplace/partners/paloaltonetworks/vmseries-ngfwbundle1/)
+-- [Bundle 2] (https://azure.microsoft.com/en-us/marketplace/partners/paloaltonetworks/vmseries-ngfwbundle2/)
 
 **Documentation**
 
@@ -14,15 +16,8 @@ Expected availability dates of VM-Series in Azure Marketplace:
 - [Deploying ARM Templates](https://azure.microsoft.com/en-us/documentation/articles/resource-group-template-deploy/#deploy-with-azure-cli)
 
 **NOTE:**
-
-- Deploying ARM templates requires some customization of the ARM JSON template. Please review the basic structure of ARM templates.
+- Deploying ARM templates requires some expertise and customization of the ARM JSON template. Please review the basic structure of ARM templates.
 - Before you use the custom ARM templates here, you must first deploy the related VM from the Azure Marketplace into the intended/destination Azure location. This enables programmatic access (i.e. template-based deployment) to deploy the VM from Azure Marketplace. You can then delete the Marketplace-based deployment if you don't need it.
 - For example, if you plan to use a custom ARM template to deploy a BYOL VM of VM-Series into Australia-East, then first deploy the BYOL VM from Marketplace into Australia. This is needed only the first time. You can then delete this VM and its related resources. Now your ARM templates, from GitHub or via CLI, will work.
-- When deploying an ARM template you may see the following error if above steps have not been done once for each SKU:
-
-``` json
-"ResourceDeploymentFailure\",\r\n \"message\": \"The resource operation completed with terminal provisioning state
-'Failed'.\",\r\n \"details\": [\r\n {\r\n \"code\": \"ImageNotFound\",\r\n \"message\":
-\"The platform image 'paloaltonetworks:vmseries1:byol:latest' is not available.
-Verify that all fields in the storage profile are correct.\"
-```
+- The older Marketplace listing below will is deprecated. Use the above listings in the Marketplace.
+[VM-Series (BYOL) Solution Template] (https://azure.microsoft.com/en-us/marketplace/partners/paloaltonetworks/vmseriesbyol-template2template2-3nic-3subnetbyol/)
