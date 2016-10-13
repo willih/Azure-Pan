@@ -8,7 +8,9 @@ sudo iptables -F
 sudo iptables -X
  
 # enable IP forwarding
-echo 1 > /proc/sys/net/ipv4/ip_forward
+#echo 1 > /proc/sys/net/ipv4/ip_forward
+# Make IP forwarding permanent
+sudo sysctl -w net.ipv4.ip_forward=1
  
 # For login to NAT machine using ssh -p 50022
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 50022 -j DNAT --to $1.5.4:22
