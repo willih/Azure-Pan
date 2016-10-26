@@ -15,13 +15,13 @@ This is a repository for Azure Resoure Manager (ARM) templates to deploy VM-Seri
 
 **NOTE:**
 - Deploying ARM templates requires some expertise and customization of the ARM JSON template. Please review the basic structure of ARM templates.
-- Most of the templates in this repository typically use the BYOL version of VM-Series. If you want to use a different SKU then you can edit the azureDeploy.json template to set the `"sku"` variable to use `"byol"`, `"bundle1"` or `"bundle2"`:
+- Most of the templates in this repository typically use the BYOL version of VM-Series. If you want to use a different SKU then you can edit the azureDeploy.json template to set the `"imageSku"` variable to use `"byol"`, `"bundle1"` or `"bundle2"`:
 ```javascript
 "imagePublisher": "paloaltonetworks",
-"imageSku" : "byol",
-"imageOffer" : "vmseries1",
+"imageSku":       "byol",
+"imageOffer" :    "vmseries1",
 ```
-- By default, if `"version"` is not set then the latest PAN-OS version available in Azure Marketplace is used.
+- By default, if `"imageVersion"` is not specified then the latest PAN-OS version available in Azure Marketplace is used (equivalent to writing `"imageVersion": "latest"`). To use a specific PAN-OS version available in the Azure Marketplace, set it as `"imageVersion": "7.1.0"`.
 - Before you use the custom ARM templates here, you must first deploy the related VM from the Azure Marketplace into the intended/destination Azure location. This enables programmatic access (i.e. template-based deployment) to deploy the VM from Azure Marketplace. You can then delete the Marketplace-based deployment if you don't need it.
 - For example, if you plan to use a custom ARM template to deploy a BYOL VM of VM-Series into Australia-East, then first deploy the BYOL VM from Marketplace into Australia. This is needed only the first time. You can then delete this VM and its related resources. Now your ARM templates, from GitHub or via CLI, will work.
 - The older Marketplace listing [VM-Series (BYOL) Solution Template] (https://azure.microsoft.com/en-us/marketplace/partners/paloaltonetworks/vmseriesbyol-template2template2-3nic-3subnetbyol/) is deprecated; please do not use this template. Use the above listings in the Marketplace.
