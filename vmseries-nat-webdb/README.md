@@ -11,7 +11,7 @@ This ARM template deploys a VM-Series next generation firewall VM in an Azure re
 
 **Virtual Machines:**
 
-- VM-Series Next generation firewall - (D3 VM size)
+- VM-Series Next generation firewall - (D3 VM size) - Bring Your Own License (BYOL)
 - NAT VM - an Ubuntu VM (A1) with iptables to forward all packets to Untrust of VM-Series firewall
 - Web VM - an Ubuntu VM (A1) that can be setup as a web server
 - DB VM - an Ubuntu VM (A1) that can be setup with a database
@@ -40,7 +40,7 @@ azure group create  -n myResGp1  -l westus  -d myResGp1Dep1  \
 ```
 
 See documentation on how to configure the VM-Series firewall after deployment. Here is a basic outline:
-
+- If you want to use hourly Pay-As-You-Go (PAYG) options then change the template's sku variable to bundle1 or bundle2 instead of byol.
 - Connect to the firewall using the public IP or DNS assigned to **eth0** of the firewall
 - Enable **eth1** and **eth2** as DHCP interfaces with a default virtual router
 - Create static routes for each of the firewall's dataplane interfaces to point to the .1 of its subnet
