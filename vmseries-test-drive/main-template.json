@@ -722,7 +722,7 @@
               "type": "CustomScript",
               "typeHandlerVersion": "2.0",
               "settings": {
-                 "fileUris": "['https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/iptables-ipsec-nat.sh']",
+                 "fileUris": ["https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/iptables-ipsec-nat.sh"],
                  "commandToExecute": "[concat('/bin/bash iptables-ipsec-nat.sh ', variables('IPAddressPrefix'))]"
              }
         }
@@ -741,7 +741,7 @@
               "type": "CustomScript",
               "typeHandlerVersion": "2.0",
               "settings": {
-                 "fileUris": "['https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/config_mysql.py']",
+                 "fileUris": ["https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/config_mysql.py"],
                  "commandToExecute": "python config_mysql.py"
              }
         }
@@ -760,8 +760,8 @@
               "type": "CustomScript",
               "typeHandlerVersion": "2.0",
               "settings": {
-                  "fileUris": "['https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/config-fw.py']",
-                  "commandToExecute": "[concat('python config-fw.py ', reference(variables('natPublicIPName')).dnsSettings.fqdn,' ', variables('baseStorageAccountName'))]"
+                  "fileUris": ["https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/config-fw.py"],
+                  "commandToExecute": "[concat('python config-fw.py ', reference(variables('natPublicIPName')).dnsSettings.fqdn,))]"
              }
         }
     },
