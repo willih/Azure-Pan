@@ -774,7 +774,10 @@
             "[concat('Microsoft.Compute/virtualMachines/', variables('web-vm-name'), '/extensions/web-vm-customscript')]",
             "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
             "[concat('Microsoft.Network/networkInterfaces/', 'DB', variables('nicName'), '0')]",
-            "[concat('Microsoft.Network/networkInterfaces/', 'Web', variables('nicName'), '0')]"
+            "[concat('Microsoft.Network/networkInterfaces/', 'Web', variables('nicName'), '0')]",
+            "[concat('Microsoft.Network/routeTables/', variables('routeTableWeb'))]",
+            "[concat('Microsoft.Network/routeTables/', variables('routeTableDB'))]"
+
         ],
 
         "properties": 

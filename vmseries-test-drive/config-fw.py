@@ -67,7 +67,7 @@ def main():
     #global baseStorageAccountName
 
     #baseStorageAccountName = sys.argv[2]
-    config_file_url = "https://github.com/PaloAltoNetworks/azure/tree/master/vmseries-test-drive/"
+    config_file_url = "https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/"
     if (config_fw() == 'false'):
         logger.info("[ERROR]: Config FW Failed")
         return
