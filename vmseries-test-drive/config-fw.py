@@ -56,7 +56,7 @@ api_key = "LUFRPT1nTjZsZEU4a240OEZXMDlSTTZQc1R2M29URk09Mk5waWNUTThVY0dmWFA5NkdON
 gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
 
 
-baseStorageAccountName = ""
+#baseStorageAccountName = ""
 config_file_url = ""
 config_file_name = "azure-test-drive.xml"
 curl_string = 'curl --form file=@%s --insecure "https://%s/api/?type=import&category=configuration&file-name=%s&key=%s"' % (config_file_name, MgmtIp, config_file_name, api_key)
@@ -64,14 +64,15 @@ curl_string = 'curl --form file=@%s --insecure "https://%s/api/?type=import&cate
 
 def main():
     global config_file_url
-    global baseStorageAccountName
+    #global baseStorageAccountName
 
-    baseStorageAccountName = sys.argv[2]
-    config_file_url = "https://"+baseStorageAccountName+".blob.core.windows.net/images/"
+    #baseStorageAccountName = sys.argv[2]
+    config_file_url = "https://github.com/PaloAltoNetworks/azure/tree/master/vmseries-test-drive/"
     if (config_fw() == 'false'):
         logger.info("[ERROR]: Config FW Failed")
         return
-    if(config_wp(sys.argv[1], baseStorageAccountName) == 'false'):
+    #if(config_wp(sys.argv[1], baseStorageAccountName) == 'false'):
+    if(config_wp(sys.argv[1]) == 'false'):
          logger.info("[ERROR]: Config WP failed")
          return
 
@@ -202,10 +203,10 @@ def config_fw():
 
 
 #Configure WP server
-def config_wp(nat_fqdn, StorageAccountName):
+def config_wp(nat_fqdn):
     global DBServerIP
     global MgmtIp
-
+    global config_file_url
 
 
     #This means firewall already configured..so exit script.
@@ -339,7 +340,8 @@ def config_wp(nat_fqdn, StorageAccountName):
 
     #Download guess-password file
     try:
-        subprocess.check_output(shlex.split("wget -O /usr/lib/cgi-bin/guess-sql-root-password.cgi https://%s.blob.core.windows.net/images/guess-sql-root-password.cgi"%(StorageAccountName)))
+        #subprocess.check_output(shlex.split("wget -O /usr/lib/cgi-bin/guess-sql-root-password.cgi https://%s.blob.core.windows.net/images/guess-sql-root-password.cgi"%(StorageAccountName)))
+        subprocess.check_output(shlex.split("wget -O /usr/lib/cgi-bin/guess-sql-root-password.cgi %sguess-sql-root-password.cgi"%(config_file_url)))
     except subprocess.CalledProcessError, e:
         logger.info("[ERROR]: wget guess-sql-root-password.cgi error {}".format(e))
         return 'false'
@@ -361,7 +363,8 @@ def config_wp(nat_fqdn, StorageAccountName):
 
     #Download ssh-to-db.cgi file
     try:
-        subprocess.check_output(shlex.split("wget -O /usr/lib/cgi-bin/ssh-to-db.cgi https://%s.blob.core.windows.net/images/ssh-to-db.cgi"%(StorageAccountName)))
+        #subprocess.check_output(shlex.split("wget -O /usr/lib/cgi-bin/ssh-to-db.cgi https://%s.blob.core.windows.net/images/ssh-to-db.cgi"%(StorageAccountName)))
+        subprocess.check_output(shlex.split("wget -O /usr/lib/cgi-bin/ssh-to-db.cgi %sssh-to-db.cgi"%(config_file_url)))
     except subprocess.CalledProcessError, e:
         logger.info("[ERROR]: wget ssh-to-db.cgi  {}".format(e))
         return 'false'
@@ -382,7 +385,8 @@ def config_wp(nat_fqdn, StorageAccountName):
 
     #Download sql-attack.html page
     try:
-        subprocess.check_output(shlex.split("wget -O /var/www/html/sql-attack.html https://%s.blob.core.windows.net/images/sql-attack.html"%(StorageAccountName)))
+        #subprocess.check_output(shlex.split("wget -O /var/www/html/sql-attack.html https://%s.blob.core.windows.net/images/sql-attack.html"%(StorageAccountName)))
+        subprocess.check_output(shlex.split("wget -O /var/www/html/sql-attack.html %ssql-attack.html"%(config_file_url)))
     except subprocess.CalledProcessError, e:
         logger.info("[ERROR]: wget sql-attack.html error {}".format(e))
         return 'false'

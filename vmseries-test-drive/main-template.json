@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "0.0.0.0-b1",
+  "contentVersion": "0.0.0.0-b2",
   "parameters": {
   },
   "variables": {
@@ -85,7 +85,7 @@
       "apiVersion": "[variables('apiVersion')]",
       "properties": {
         "accountType": "[variables('StorageAccountType')]"
-      }
+    }
     },  
     {
       "apiVersion": "[variables('apiVersion')]",
@@ -722,7 +722,7 @@
               "type": "CustomScript",
               "typeHandlerVersion": "2.0",
               "settings": {
-                 "fileUris": ["[concat('https://',variables('baseStorageAccountName'),'.blob.core.windows.net/images/iptables-ipsec-nat.sh')]"],
+                 "fileUris": "['https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/iptables-ipsec-nat.sh']",
                  "commandToExecute": "[concat('/bin/bash iptables-ipsec-nat.sh ', variables('IPAddressPrefix'))]"
              }
         }
@@ -741,7 +741,7 @@
               "type": "CustomScript",
               "typeHandlerVersion": "2.0",
               "settings": {
-                 "fileUris": ["[concat('https://',variables('baseStorageAccountName'),'.blob.core.windows.net/images/config_mysql.py')]"],
+                 "fileUris": "['https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/config_mysql.py']",
                  "commandToExecute": "python config_mysql.py"
              }
         }
@@ -760,7 +760,7 @@
               "type": "CustomScript",
               "typeHandlerVersion": "2.0",
               "settings": {
-                  "fileUris": ["[concat('https://',variables('baseStorageAccountName'),'.blob.core.windows.net/images/config-fw.py')]"],
+                  "fileUris": "['https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-test-drive/config-fw.py']",
                   "commandToExecute": "[concat('python config-fw.py ', reference(variables('natPublicIPName')).dnsSettings.fqdn,' ', variables('baseStorageAccountName'))]"
              }
         }
