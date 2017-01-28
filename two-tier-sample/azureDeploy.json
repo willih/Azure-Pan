@@ -8,39 +8,37 @@
         "description": "This is the name of the your storage account"
       }
     },
-    "StorageAccountType": {
-      "type": "string",
-      "allowedValues": [
-        "Standard_LRS",
-        "Standard_GRS",
-        "Standard_RAGRS",
-        "Premium_LRS"
-      ],
-      "metadata": {
-        "description": "The type of the Storage Account created"
-      },
-      "defaultValue": "Standard_LRS"
-    },
-    "FWdnsName": {
+    "FirewallDnsName": {
       "type": "string",
       "metadata": {
         "description": "Unique DNS Name for the Public IP used to access PAN Firewall VM."
       },
       "defaultValue": "pan-fw"
     },
-    "NATdnsName": {
+    "NatDnsName": {
       "type": "string",
       "metadata": {
         "description": "Unique DNS Name for the Public IP used to access NAT VM."
       },
       "defaultValue": "pan-nat"
     },
-    "FWvmName": {
+    "FirewallVmName": {
       "type": "string",
       "metadata": {
         "description": "Name of VM-Seris VM in the portal"
       },
       "defaultValue": "pan-fw"
+    },
+    "FirewallVmSize": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_D3_v2",
+        "Standard_D4_v2"
+      ],
+      "metadata": {
+        "description": "This is the size of PAN's firewall VM"
+      },
+      "defaultValue": "Standard_D3_v2"
     },
     "AdminUserName": {
       "type": "string",
@@ -54,17 +52,6 @@
         "description": "Password for all VMs"
       }
     },
-    "FWvmSize": {
-      "type": "string",
-      "allowedValues": [
-        "Standard_D3_v2",
-        "Standard_D4_v2"
-      ],
-      "metadata": {
-        "description": "This is the size of PAN's firewall VM"
-      },
-      "defaultValue": "Standard_D3_v2"
-    },
     "FromGatewayLogin": {
       "type": "string",
       "metadata": {
@@ -72,7 +59,7 @@
       },
       "defaultValue": "0.0.0.0/0"
     },
-    "IPaddressPrefix": {
+    "IpAddressPrefix": {
       "type": "string",
       "defaultValue": "10.5",
       "metadata": {
@@ -85,19 +72,19 @@
     "apiVersion": "2015-05-01-preview",
     "location": "[resourceGroup().location]",
     "unqString" : "[substring(uniqueString(resourceGroup().id), 0, 4)]",
-    "storageAccountName": "[concat(variables('StorageAccountName'),variables('unqString'))]",
-    "storageAccountType": "parameters('StorageAccountType')",
-    "fwvmName":  "parameters('FWvmName')",
+    "strAccountName": "[concat(variables('StorageAccountName'),variables('unqString'))]",
+    "storageAccountType": "Standard_LRS",
+    "fwvmName":  "parameters('FirewallVmName')",
     "adminUserName": "parameters('AdminUserName')",
     "adminPassword":"parameters('AdminPassword')",
-    "fwVmSize": "parameters('FWvmSize')",
+    "fwVmSize": "parameters('FirewallVmSize')",
     "gvmSize": "Standard_A1",
     "fromGatewayLogin": "parameters('FromGatewayLogin')",
-    "IPAddressPrefix": "parameters('IPaddressPrefix')",
+    "IPAddressPrefix": "parameters('IpAddressPrefix')",
     "natPublicIPName": "natPublicIP",
     "fwpublicIPName": "fwPublicIP",
-    "dnsNameForFwPublicIP": "parameters('FWdnsName')",
-    "dnsNameForNATPublicIP": "parameters('NATdnsName')",
+    "dnsNameForFwPublicIP": "parameters('FirewallDnsName')",
+    "dnsNameForNATPublicIP": "parameters('NatDnsName')",
     "ubuntuOSVersion": "16.04-LTS",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
@@ -627,7 +614,7 @@
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "vhd": {
-               "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/',variables('fwVmName'), '-', variables('fwOffer'), '-', variables('fwSku'),'.vhd')]"
+               "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('strAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/',variables('fwVmName'), '-', variables('fwOffer'), '-', variables('fwSku'),'.vhd')]"
             }
           }
         },
@@ -679,7 +666,7 @@
                 "osDisk": {
                     "name": "nat-vm-osdisk",
                     "vhd": {
-                        "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/osdisk-NAT.vhd')]"
+                        "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('strAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/osdisk-NAT.vhd')]"
                     },
                     "caching": "ReadWrite",
                     "createOption": "FromImage"
@@ -725,7 +712,7 @@
                 "osDisk": {
                     "name": "web-osdisk",
                     "vhd": {
-                        "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/osdisk-Web.vhd')]"
+                        "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('strAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/osdisk-Web.vhd')]"
                     },
                     "caching": "ReadWrite",
                     "createOption": "FromImage"
@@ -771,7 +758,7 @@
                 "osDisk": {
                     "name": "db-osdisk",
                     "vhd": {
-                        "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/osdisk-DB.vhd')]"
+                        "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('strAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/osdisk-DB.vhd')]"
                     },
                     "caching": "ReadWrite",
                     "createOption": "FromImage"
