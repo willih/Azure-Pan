@@ -767,7 +767,7 @@
     },
     {
         "apiVersion": "2015-01-01",
-        "name": "linkedTemplate",
+        "name": "DBlinkedTemplate",
         "type": "Microsoft.Resources/deployments",
         "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('db-vm-name'), '/extensions/db-vm-customscript')]",
@@ -778,6 +778,38 @@
             "[concat('Microsoft.Network/routeTables/', variables('routeTableWeb'))]",
             "[concat('Microsoft.Network/routeTables/', variables('routeTableDB'))]"
 
+        ],
+
+        "properties": 
+        {
+            "mode": "Incremental",
+            "template": 
+            {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "resources": [
+                     {
+                        "apiVersion": "[variables('apiVersion')]",
+                        "type": "Microsoft.Network/virtualNetworks/subnets",
+                        "name": "[concat(variables('virtualNetworkName'),'/',variables('subnet4Name'))]",
+                        "location": "[variables('location')]",
+                        "properties": {
+                        "mode": "Incremental",
+                        "addressPrefix": "[variables('subnet4Prefix')]",
+                        "routeTable": {
+                           "id": "[resourceId('Microsoft.Network/routeTables', variables('routeTableDB'))]"
+                            }
+                        }
+                    }]
+            }
+        }
+    },
+    {
+        "apiVersion": "2015-01-01",
+        "name": "WeblinkedTemplate",
+        "type": "Microsoft.Resources/deployments",
+        "dependsOn": [
+            "[concat('Microsoft.Resources/deployments/', 'DBlinkedTemplate')]"
         ],
 
         "properties": 
@@ -800,20 +832,8 @@
                             "id": "[resourceId('Microsoft.Network/routeTables', variables('routeTableWeb'))]"
                             }
                         }
-                    },
-                    {
-                        "apiVersion": "[variables('apiVersion')]",
-                        "type": "Microsoft.Network/virtualNetworks/subnets",
-                        "name": "[concat(variables('virtualNetworkName'),'/',variables('subnet4Name'))]",
-                        "location": "[variables('location')]",
-                        "properties": {
-                        "mode": "Incremental",
-                        "addressPrefix": "[variables('subnet4Prefix')]",
-                        "routeTable": {
-                           "id": "[resourceId('Microsoft.Network/routeTables', variables('routeTableDB'))]"
-                            }
-                        }
-                    }]
+                }]
+
             }
         }
     }
