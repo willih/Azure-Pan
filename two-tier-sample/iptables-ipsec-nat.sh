@@ -6,10 +6,8 @@ sudo iptables --delete-chain
 sudo iptables --table nat --delete-chain
 sudo iptables -F
 sudo iptables -X
-
-
-# Since this script runs only once when procisioning the VM..
-# Make IP forwarding permanent so it can survice reboots
+# Since this script runs only once when provisioning the VM..
+# Make IP forwarding permanent so it can survive reboots
 echo net.ipv4.ip_forward = 1 | sudo tee -a /etc/sysctl.conf
 # Reload sysctl config to enable IP forwarding
 sudo sysctl -p /etc/sysctl.conf

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "Content-type: text/html"
 echo ""
@@ -21,5 +21,5 @@ echo '}'
 echo '</script>'
 echo '</body>'
 echo '</html>'
-ssh -o ConnectTimeout=2 root@DB_IP_ADDRESS
+ssh -o ConnectTimeout=2 root@DB-IP-ADDRESS
 
