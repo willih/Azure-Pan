@@ -72,7 +72,7 @@
     "apiVersion": "2015-05-01-preview",
     "location": "[resourceGroup().location]",
     "unqString" : "[substring(uniqueString(resourceGroup().id), 0, 4)]",
-    "strAccountName": "[concat(variables('StorageAccountName'),variables('unqString'))]",
+    "strAccountName": "[concat(parameters('StorageAccountName'),variables('unqString'))]",
     "storageAccountType": "Standard_LRS",
     "fwvmName":  "parameters('FirewallVmName')",
     "adminUserName": "parameters('AdminUserName')",
@@ -148,7 +148,7 @@
       "location": "[variables('location')]",
       "apiVersion": "[variables('apiVersion')]",
       "properties": {
-        "accountType": "[variables('StorageAccountType')]"
+        "accountType": "[variables('storageAccountType')]"
     }
     },  
     {
