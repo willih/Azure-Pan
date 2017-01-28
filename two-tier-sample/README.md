@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # Palo Alto Networks Azure repository
 
 # Support Policy
@@ -7,34 +6,7 @@ Unless explicitly tagged, all projects or work posted in our GitHub repository (
 
 
 # VM-Series with NAT VM, and VM's for Web and DB subnet
-=======
-# VM-Series with NAT VM, and VM's for Web and DB subnet
 
-This ARM template deploys a VM-Series next generation firewall VM in an Azure resource group alongwith the following resources similar to a typical two tier architecture. It also adds the relevant User-Defined Route (UDR) tables to send all traffic through the VM-Series firewall.
-
-<<<<<<< HEAD
-[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnarayan-pan%2Fnarayan-azure-repo/master/test%20drive/azureDeploy.json)
-
-[<img src="https://camo.githubusercontent.com/536ab4f9bc823c2e0ce72fb610aafda57d8c6c12/687474703a2f2f61726d76697a2e696f2f76697375616c697a65627574746f6e2e706e67" data-canonical-src="http://armviz.io/visualizebutton.png" style="max-width:100%;">](https://raw.githubusercontent.com/narayan-pan/narayan-azure-repo/master/test%20drive/azureDeploy.json)
-
-
-**Virtual Machines:**
-
-- VM-Series Next generation firewall - (D3 VM size)
-- NAT VM - an Ubuntu VM (A1) with iptables to forward all packets to Untrust of VM-Series firewall
-- Web VM - an Ubuntu VM (A1) that can be setup as a web server
-- DB VM - an Ubuntu VM (A1) that can be setup with a database
-
-**Virtual Network (VNET):**
-
-- VNET : 192.168.0.0/16
-- Mgmt Subnet: 192.168.0.0/24 - For the firewall's management interface (eth0)
-- Untrust Subnet: 192.168.1.0/24 - For eth1 of firewall
-- Trust Subnet: 192.168.2.0/24 - For eth2 of firewall
-- Web Subnet: 192.168.3.0/24
-- DB Subnet: 192.168.4.0/24
-- NAT Subnet: 192.168.5.0/24
->>>>>>> Stashed changes
 
 This ARM template deploys a VM-Series next generation firewall VM in an Azure resource group along with a web and db server similar to a typical two tier architecture. It also adds the relevant User-Defined Route (UDR) tables to send all traffic through the VM-Series firewall.
 
