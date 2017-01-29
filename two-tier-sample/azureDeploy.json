@@ -40,18 +40,6 @@
       },
       "defaultValue": "Standard_D3_v2"
     },
-    "AdminUserName": {
-      "type": "string",
-      "metadata": {
-        "description": "UserName for all VMs"
-      }
-    },
-    "AdminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Password for all VMs"
-      }
-    },
     "FromGatewayLogin": {
       "type": "string",
       "metadata": {

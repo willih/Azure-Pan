@@ -2,28 +2,22 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "AdminUsername": {
-      "value": "pan-testdrive"
-    },
-    "AdminPassword": {
-      "value": "paloalto@123"
-    },
     "StorageAccountName": {
       "value": "pantestdrivetest"
     },
     "StorageAccountType":{
         "value": "Standard_LRS"
     }
-    "FWdnsName": {
+    "FirewallDnsName": {
       "value": "pan-fw"
     },
-    "NATdnsName": {
+    "NatDnsName": {
       "value": "pan-nat"
     },
-    "FWvmName": {
+    "FirewallVmName": {
       "value": "pan-fw"
     },
-    "FWvmSize": {
+    "FirewallVmSize": {
       "value": "Standard_D3_v2"
     },
     "FromGatewayLogin": {
