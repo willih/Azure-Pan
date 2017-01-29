@@ -2,13 +2,13 @@
 <config version="7.1.0" urldb="paloaltonetworks">
   <mgt-config>
     <users>
-      <entry name="pan-testdrive">
-        <phash>$1$naoeqgcr$IcEIICYT4nE8hGEEd.E2E0</phash>
+      <entry name="paloalto">
         <permissions>
           <role-based>
             <superuser>yes</superuser>
           </role-based>
         </permissions>
+        <phash>$1$omtpasik$JVuMCKVuxaIHBIkdrbR4k.</phash>
       </entry>
     </users>
   </mgt-config>
@@ -89,13 +89,6 @@
               </layer3>
             </entry>
             <entry name="ethernet1/2">
-              <layer3>
-                <dhcp-client>
-                  <create-default-route>no</create-default-route>
-                </dhcp-client>
-              </layer3>
-            </entry>
-            <entry name="ethernet1/3">
               <layer3>
                 <dhcp-client>
                   <create-default-route>no</create-default-route>
@@ -274,7 +267,6 @@
             <interface>
               <member>ethernet1/1</member>
               <member>ethernet1/2</member>
-              <member>ethernet1/3</member>
             </interface>
             <ecmp>
               <algorithm>
@@ -382,14 +374,14 @@
           <application/>
           <application-group/>
           <zone>
-            <entry name="external">
+            <entry name="Untrust">
               <network>
                 <layer3>
                   <member>ethernet1/1</member>
                 </layer3>
               </network>
             </entry>
-            <entry name="web">
+            <entry name="Trust">
               <network>
                 <layer3>
                   <member>ethernet1/2</member>
@@ -398,9 +390,7 @@
             </entry>
             <entry name="db">
               <network>
-                <layer3>
-                  <member>ethernet1/3</member>
-                </layer3>
+                <layer3/>
               </network>
             </entry>
           </zone>
@@ -434,11 +424,10 @@
               <rules>
                 <entry name="SSH inbound">
                   <to>
-                    <member>db</member>
-                    <member>web</member>
+                    <member>Trust</member>
                   </to>
                   <from>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </from>
                   <source>
                     <member>any</member>
@@ -469,11 +458,10 @@
                 </entry>
                 <entry name="SSH 221-222 inbound">
                   <to>
-                    <member>db</member>
-                    <member>web</member>
+                    <member>Trust</member>
                   </to>
                   <from>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </from>
                   <source>
                     <member>any</member>
@@ -537,10 +525,10 @@
                 </entry>
                 <entry name="Web browsing">
                   <to>
-                    <member>web</member>
+                    <member>Trust</member>
                   </to>
                   <from>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </from>
                   <source>
                     <member>any</member>
@@ -569,11 +557,10 @@
                 </entry>
                 <entry name="Allow all outbound">
                   <to>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </to>
                   <from>
-                    <member>db</member>
-                    <member>web</member>
+                    <member>Trust</member>
                   </from>
                   <source>
                     <member>any</member>
@@ -608,10 +595,10 @@
                     <member>any</member>
                   </from>
                   <source>
-                    <member>db-object</member>
+                    <member>web-object</member>
                   </source>
                   <destination>
-                    <member>web-object</member>
+                    <member>db-object</member>
                   </destination>
                   <source-user>
                     <member>any</member>
@@ -689,10 +676,10 @@
                     </dynamic-ip-and-port>
                   </source-translation>
                   <to>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </to>
                   <from>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </from>
                   <source>
                     <member>any</member>
@@ -716,10 +703,10 @@
                     </dynamic-ip-and-port>
                   </source-translation>
                   <to>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </to>
                   <from>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </from>
                   <source>
                     <member>any</member>
@@ -744,10 +731,10 @@
                     </dynamic-ip-and-port>
                   </source-translation>
                   <to>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </to>
                   <from>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </from>
                   <source>
                     <member>any</member>
@@ -768,7 +755,7 @@
                     </dynamic-ip-and-port>
                   </source-translation>
                   <to>
-                    <member>external</member>
+                    <member>Untrust</member>
                   </to>
                   <from>
                     <member>any</member>

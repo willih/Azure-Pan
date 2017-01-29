@@ -48,8 +48,8 @@ MgmtIp =".".join((myIp.split('.')[0], myIp.split('.')[1], '0', '4'))
 #We know that DB IP is going to have x.x.4.5...so just need prefix
 DBServerIP = ".".join((myIp.split('.')[0], myIp.split('.')[1], '4', '5'))
 
-#The api key is pre-generated for  pan-testdrive/paloalto@123
-api_key = "LUFRPT1nTjZsZEU4a240OEZXMDlSTTZQc1R2M29URk09Mk5waWNUTThVY0dmWFA5NkdON1dNNVNzaHVWMzZnQ3k2VlRVSlpMdlFKTT0="
+#The api key is pre-generated for  paloalto/Pal0Alt0@123
+api_key = "LUFRPT1CU0dMRHIrOWFET0JUNzNaTmRoYmkwdjBkWWM9alUvUjBFTTNEQm93Vmx0OVhFRlNkOXdJNmVwYWk5Zmw4bEs3NjgwMkh5QT0="
 
 
 #Need this to by pass invalid certificate issue. Should try to fix this
@@ -58,7 +58,7 @@ gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
 
 #baseStorageAccountName = ""
 config_file_url = ""
-config_file_name = "azure-test-drive.xml"
+config_file_name = "azure-sample.xml"
 curl_string = 'curl --form file=@%s --insecure "https://%s/api/?type=import&category=configuration&file-name=%s&key=%s"' % (config_file_name, MgmtIp, config_file_name, api_key)
 
 
