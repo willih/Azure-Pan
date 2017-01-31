@@ -5,7 +5,7 @@
     "StorageAccountName": {
       "type": "string",
       "metadata": {
-        "description": "This is the name of the your storage account"
+        "description": "This is the name of the your storage account. Enter up to 20 characters"
       }
     },
     "FirewallDnsName": {
