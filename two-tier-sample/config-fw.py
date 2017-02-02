@@ -30,7 +30,7 @@ from socket import gethostname, gethostbyname
 import sys
 import ssl
 import xml.etree.ElementTree as et
-
+import threading
 
 LOG_FILENAME = 'azure.log'
 logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO, filemode='w')
@@ -68,13 +68,17 @@ def main():
 
     #baseStorageAccountName = sys.argv[2]
     config_file_url = "https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/two-tier-sample/"
-    if (config_fw() == 'false'):
-        logger.info("[ERROR]: Config FW Failed")
-        return
-    #if(config_wp(sys.argv[1], baseStorageAccountName) == 'false'):
-    if(config_wp(sys.argv[1]) == 'false'):
-         logger.info("[ERROR]: Config WP failed")
-         return
+
+    t1 = threading.Thread(name='config_fw',target=config_fw)
+    t1.start()
+#    if (config_fw() == 'false'):
+#        logger.info("[ERROR]: Config FW Failed")
+#        return
+    t2 = threading.Thread(name='config_wp', target=config_wp, args=(sys.argv[1]))
+    t2.start()
+#    if(config_wp(sys.argv[1]) == 'false'):
+#         logger.info("[ERROR]: Config WP failed")
+#         return
 
 
 
