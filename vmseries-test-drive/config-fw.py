@@ -53,7 +53,7 @@ api_key = "LUFRPT1nTjZsZEU4a240OEZXMDlSTTZQc1R2M29URk09Mk5waWNUTThVY0dmWFA5NkdON
 
 
 #Need this to by pass invalid certificate issue. Should try to fix this
-gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 
 
 #baseStorageAccountName = ""
