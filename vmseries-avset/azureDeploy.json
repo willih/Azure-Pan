@@ -59,7 +59,6 @@
         },
         "adminPassword": {
             "type": "securestring",
-	    "defaultValue": "Pal0Alt0!29",
             "metadata": {
                 "description": "Password for VM-Series administrator"
             }
@@ -79,26 +78,46 @@
             "type": "string",
             "defaultValue": "",
             "metadata": {
-                "description": "SSH rsa public key file as a string."
+                "description": "SSH RSA public key file as a string."
             }
         },
+        "imageVersion": {
+            "type": "string",
+            "defaultValue": "latest",
+            "allowedValues": [
+                "7.1.1",
+		"8.0.0"		    
+            ],
+            "metadata": {
+                "description": "PAN-OS version."
+            }
+        }, 
         "vmSize": {
             "type": "string",
             "allowedValues": [
                 "Standard_D3",
 		"Standard_D3_v2",
                 "Standard_D4", 
-		 "Standard_D4_v2",
-                "Standard_A4"		    
+		"Standard_D4_v2",
+		"Standard_D5",
+		"Standard_D5_v2",
+                "Standard_A4"	    
             ],
             "metadata": {
                 "description": "Azure VM size for VM-Series"
             }
         },
+	"availabilitySetName": {
+            "type": "string",
+	    "defaultValue": "VMSeriesFwAvSet",
+            "metadata": {
+                "description": "Azure Availability Set for VM-Series firewalls"
+            }
+        },
         "srcIPInboundNSG": {
             "type": "string",
             "metadata": {
-                "description": "Your source public IP address. Added to the inbound DefaultNSG on eth0 (MGMT)"
+                "description": "Your source public IP address. Added to the restrict inbound DefaultNSG on eth0 (MGMT)"
             },
             "defaultValue": "0.0.0.0/0"
         },
@@ -191,7 +210,7 @@
         "apiVersion": "2015-06-15",
         "imagePublisher": "paloaltonetworks",
     	"imageSku" : "byol",
-	    "imageOffer" : "vmseries1",
+	"imageOffer" : "vmseries1",
         "fwpublicIPName": "[concat(parameters('vmName'), '-fwMgmtPublicIP')]",
         "nicName": "[concat(parameters('vmName'), '-eth')]",
         "FWPrivateIPAddressUntrust": "[parameters('subnet1StartAddress')]",
@@ -203,8 +222,7 @@
         "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet1Name'))]",
         "subnet2Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet2Name'))]",
 	"storageAccountSetupURL" : "[concat(parameters('baseUrl'),'/storageAccount-',parameters('storageAccountNewOrExisting'),'.json')]",
-	"vmTemplateUrl": "[concat(parameters('baseUrl'), '/virtual-machine-', parameters('authenticationType'),'.json')]",
-    "availabilitySetName": "VMSeriesFwAvSet"
+	"vmTemplateUrl": "[concat(parameters('baseUrl'), '/virtual-machine-', parameters('authenticationType'),'.json')]"
     },
     "resources": [
     {
@@ -236,7 +254,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
-      "name": "[variables('availabilitySetName')]",
+      "name": "[parameters('availabilitySetName')]",
       "location": "[resourceGroup().location]"
     }, 
     {
@@ -435,6 +453,9 @@
           "imageOffer": {
             "value": "[variables('imageOffer')]"
           },
+  	 "imageVersion": {
+            "value": "[variables('imageVersion')]"
+          },
           "imagePublisher": {
             "value": "[variables('imagePublisher')]"
           },
@@ -457,7 +478,7 @@
             "value": "[parameters('sshKey')]"
           },
         "availabilitySetName": {
-          "value": "[variables('availabilitySetName')]"
+          "value": "[parameters('availabilitySetName')]"
         }
         }
       }
