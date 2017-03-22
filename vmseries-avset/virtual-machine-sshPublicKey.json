@@ -14,6 +14,9 @@
     "imageOffer": {
       "type": "string"
     },
+    "imageVersion": {
+      "type": "string"
+    },
     "imagePublisher": {
       "type": "string"
     },
@@ -21,6 +24,9 @@
       "type": "string"
     },
     "vmSize": {
+      "type": "string"
+    },
+    "availabilitySetName": {
       "type": "string"
     },
     "adminUsername": {
