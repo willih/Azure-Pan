@@ -465,8 +465,8 @@
           "vmSize": {
             "value": "[parameters('vmSize')]"
           },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
+          "adminUserName": {
+            "value": "[parameters('adminUserName')]"
           },
           "adminPassword": {
             "value": "[parameters('adminPassword')]"
