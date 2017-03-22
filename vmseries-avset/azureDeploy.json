@@ -92,6 +92,18 @@
                 "description": "PAN-OS version."
             }
         }, 
+        "imageSku": {
+            "type": "string",
+            "defaultValue": "byol",
+            "allowedValues": [
+                "byol",
+		"bundle1",
+		"bundle2"
+            ],
+            "metadata": {
+                "description": "VM-Series model: BYOL or hourly pay-as-you-go (PAYG): Bundle 1 or Bundle 2"
+            }
+        }, 
         "vmSize": {
             "type": "string",
             "allowedValues": [
@@ -209,7 +221,6 @@
     "variables": {
         "apiVersion": "2015-06-15",
         "imagePublisher": "paloaltonetworks",
-    	"imageSku" : "byol",
 	"imageOffer" : "vmseries1",
         "fwpublicIPName": "[concat(parameters('vmName'), '-fwMgmtPublicIP')]",
         "nicName": "[concat(parameters('vmName'), '-eth')]",
@@ -448,7 +459,7 @@
             "value": "[parameters('vmName')]"
           },
           "imageSku": {
-            "value": "[variables('imageSku')]"
+            "value": "[parameters('imageSku')]"
           },
           "imageOffer": {
             "value": "[variables('imageOffer')]"
