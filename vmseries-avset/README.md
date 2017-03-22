@@ -1,10 +1,12 @@
 # VM-Series in an Availability Set Template
 
 This ARM template deploys a VM-Series next generation firewall VM in an availability set of a Azure resource group. It lets you select your:
-- Username and Password
+- Username and Password, or SSH key
 - Resource Group and Storage Account inside it
 - VNET's CIDR (/16 range) with 3 subnets: Mgmt (0.0/24), Untrust (1.0/24), Trust (2.0/24)
 - Azure VM size and login for VM-Series (BYOL edition) with 3 NIC's that map to above subnets
+- Specify PAN-OS version and VM-Series model: BYOL, hourly pay-as-you-go (PAYG)Bundle 1 or Bundle 2
+- Specify the Azure Availability Set (required parameter)
 
 Note: Make sure to set a strong password for the firewall and set the SRCIPINBOUNDNSG to your source IP, i.e. restrict which IP (yours) can connect to your Azure deployment. If you keep it 0.0.0.0/0 then anyone can connect (or brute force) your VM's. 
 
