@@ -55,8 +55,7 @@
         "plan": {
            "name": "[parameters('imageSku')]",
            "product": "[parameters('imageOffer')]",
-           "publisher": "[parameters('imagePublisher')]",
-	   "version": "[parameters('imageVersion')]"
+           "publisher": "[parameters('imagePublisher')]"
         },
         "properties": {
             "hardwareProfile": {
