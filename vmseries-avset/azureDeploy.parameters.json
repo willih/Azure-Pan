@@ -93,7 +93,19 @@
                 "description": "PAN-OS version."
             }
         },    
-        "vmSize": {
+        "imageSku": {
+            "type": "string",
+            "defaultValue": "byol",
+            "allowedValues": [
+                "byol",
+		"bundle1",
+		"bundle2"
+            ],
+            "metadata": {
+                "description": "VM-Series model: BYOL or hourly pay-as-you-go (PAYG): Bundle 1 or Bundle 2"
+            }
+        },
+	"vmSize": {
             "type": "string",
             "allowedValues": [
                 "Standard_D3",
