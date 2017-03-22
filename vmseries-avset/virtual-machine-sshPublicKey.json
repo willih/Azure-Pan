@@ -55,7 +55,8 @@
         "plan": {
            "name": "[parameters('imageSku')]",
            "product": "[parameters('imageOffer')]",
-           "publisher": "[parameters('imagePublisher')]"
+           "publisher": "[parameters('imagePublisher')]",
+	   "version": "[parameters('imageVersion')]"
         },
         "properties": {
             "hardwareProfile": {
@@ -81,7 +82,7 @@
                     "publisher": "[parameters('imagePublisher')]",
                     "offer": "[parameters('imageOffer')]",
                     "sku": "[parameters('imageSku')]",
-                    "version": "latest"
+                    "version": "[parameters('imageVersion')]"
                 },
                 "osDisk": {
                     "name": "osdisk",
