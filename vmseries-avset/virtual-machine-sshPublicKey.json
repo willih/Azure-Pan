@@ -29,7 +29,7 @@
     "availabilitySetName": {
       "type": "string"
     },
-    "adminUsername": {
+    "adminUserName": {
       "type": "string"
     },
     "adminPassword": {
