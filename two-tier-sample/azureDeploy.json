@@ -15,13 +15,6 @@
       },
       "defaultValue": "pan-fw"
     },
-    "NatDnsName": {
-      "type": "string",
-      "metadata": {
-        "description": "Unique DNS Name for the Public IP used to access NAT VM."
-      },
-      "defaultValue": "pan-nat"
-    },
     "FirewallVmName": {
       "type": "string",
       "metadata": {
@@ -69,10 +62,10 @@
     "gvmSize": "Standard_A1",
     "fromGatewayLogin": "[parameters('FromGatewayLogin')]",
     "IPAddressPrefix": "[parameters('IpAddressPrefix')]",
-    "natPublicIPName": "natPublicIP",
+    "dpPublicIPName": "dpPublicIP",
     "fwpublicIPName": "fwPublicIP",
     "dnsNameForFwPublicIP": "[parameters('FirewallDnsName')]",
-    "dnsNameForNATPublicIP": "[parameters('NatDnsName')]",
+    "dnsNameForDPPublicIP": "[parameters('DPDnsName')]",
     "ubuntuOSVersion": "16.04-LTS",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
@@ -91,20 +84,16 @@
     "subnet3Prefix": "[concat(variables('IPAddressPrefix'), '.3.0/24')]",
     "subnet4Name": "DB",
     "subnet4Prefix": "[concat(variables('IPAddressPrefix'), '.4.0/24')]",
-    "subnet5Name": "NAT",
-    "subnet5Prefix": "[concat(variables('IPAddressPrefix'), '.5.0/24')]",
     "nicName": "eth",
     "FWPrivateIPAddressMgmt": "[concat(variables('IPAddressPrefix'), '.0.4')]",
     "FWPrivateIPAddressUntrust": "[concat(variables('IPAddressPrefix'), '.1.4')]",
     "FWPrivateIPAddressTrust": "[concat(variables('IPAddressPrefix'), '.2.4')]",
     "WebPrivateIPAddress": "[concat(variables('IPAddressPrefix'), '.3.5')]",
     "DBPrivateIPAddress": "[concat(variables('IPAddressPrefix'), '.4.5')]",
-    "NATPrivateIPAddress": "[concat(variables('IPAddressPrefix'), '.5.4')]",
     "PrivateIPAddress1": "[variables('FWPrivateIPAddressUntrust')]",
     "PrivateIPAddress2": "[variables('FWPrivateIPAddressTrust')]",
     "PrivateIPAddress3": "[variables('WebPrivateIPAddress')]",
     "PrivateIPAddress4": "[variables('DBPrivateIPAddress')]",
-    "PrivateIPAddress5": "[variables('NATPrivateIPAddress')]",
     "publicIPAddressType": "Dynamic",
     "vnetName": "fwVNET",
     "virtualNetworkName": "[concat(variables('vnetName'), variables('unqString'))]",
@@ -116,14 +105,11 @@
     "subnet3Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet3Name'))]",
     "subnet4Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet4Name'))]",
     "subnet5Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet5Name'))]",
-    "routeTableUntrust": "FWUntrust-to-NAT",
-    "routeTableNAT": "NAT-to-FW",
     "routeTableWeb": "Web-to-FW",
     "routeTableDB": "DB-to-FW",
     "routeTableTrust": "Trust-to-intranetwork",
     "dnsnamefw": "[concat(variables('dnsNameForFwPublicIP'), variables('unqString'))]",
-    "dnsnamenat": "[concat(variables('dnsNameForNATPublicIP'), variables('unqString'))]",
-    "nat-vm-name": "nat-vm",
+    "dnsnamedp": "[concat(variables('dnsNameForDPPublicIP'), variables('unqString'))]",
     "web-vm-name": "webserver-vm",
     "db-vm-name": "database-vm"
 
@@ -138,7 +124,7 @@
       "properties": {
         "accountType": "[variables('storageAccountType')]"
     }
-    },  
+    },
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
@@ -154,14 +140,14 @@
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('natPublicIPName')]",
+      "name": "[variables('dpPublicIPName')]",
       "location": "[variables('location')]",
-      "properties": {  
+      "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[variables('dnsnamenat')]"
+          "domainNameLabel": "[variables('dnsnamedp')]"
         }
-      } 
+      }
     },
     {
         "apiVersion": "[variables('apiVersion')]",
@@ -213,23 +199,7 @@
             }]
         }
     },
-    {  
-        "apiVersion": "[variables('apiVersion')]",
-        "type": "Microsoft.Network/routeTables",
-        "name": "[variables('routeTableUntrust')]",
-        "location": "[variables('location')]",
-        "properties": {
-            "routes": [{
-                "name": "FirewallUntrustTONat",
-                "properties": {
-                    "addressPrefix": "0.0.0.0/0",
-                    "nextHopType": "VirtualAppliance",
-                    "nextHopIpAddress": "[variables('NATPrivateIPAddress')]"
-                }   
-            }]
-        }
-    },
-    {  
+    {
         "apiVersion": "[variables('apiVersion')]",
         "type": "Microsoft.Network/routeTables",
         "name": "[variables('routeTableTrust')]",
@@ -241,27 +211,11 @@
                     "addressPrefix": "0.0.0.0/0",
                     "nextHopType": "VirtualAppliance",
                     "nextHopIpAddress": "[variables('FWPrivateIPAddressTrust')]"
-                }     
-            }]
-        }
-    },
-    {
-        "apiVersion": "[variables('apiVersion')]",
-        "type": "Microsoft.Network/routeTables",
-        "name": "[variables('routeTableNAT')]",
-        "location": "[variables('location')]",
-        "properties": {
-            "routes": [{
-                "name": "NAT-to-Firewall",
-                "properties": {
-                    "addressPrefix": "[variables('subnet1Prefix')]",
-                    "nextHopType": "VirtualAppliance",
-                    "nextHopIpAddress": "[variables('FWPrivateIPAddressUntrust')]"
                 }
             }]
         }
     },
-    {  
+    {
         "apiVersion": "[variables('apiVersion')]",
         "type": "Microsoft.Network/routeTables",
         "name": "[variables('routeTableWeb')]",
@@ -276,24 +230,16 @@
                 }
             },
             {
-                "name": "Web-to-Firewall-NAT",
-                "properties": {
-                    "addressPrefix": "[variables('subnet5Prefix')]",
-                    "nextHopType": "VirtualAppliance",  
-                    "nextHopIpAddress": "[variables('FWPrivateIPAddressTrust')]"
-                }
-            },
-            {
                 "name": "Web-default-route",
                 "properties": {
                     "addressPrefix": "0.0.0.0/0",
                     "nextHopType": "VirtualAppliance",
                     "nextHopIpAddress": "[variables('FWPrivateIPAddressTrust')]"
                 }
-            }]  
+            }]
         }
     },
-    {  
+    {
         "apiVersion": "[variables('apiVersion')]",
         "type": "Microsoft.Network/routeTables",
         "name": "[variables('routeTableDB')]",
@@ -308,21 +254,13 @@
                 }
             },
             {
-                "name": "DB-to-Firewall-NAT",
-                "properties": {
-                    "addressPrefix": "[variables('subnet5Prefix')]",
-                    "nextHopType": "VirtualAppliance",
-                    "nextHopIpAddress": "[variables('FWPrivateIPAddressTrust')]"
-                }
-            },
-            {
                 "name": "DB-default-route",
                 "properties": {
                     "addressPrefix": "0.0.0.0/0",
                     "nextHopType": "VirtualAppliance",
                     "nextHopIpAddress": "[variables('FWPrivateIPAddressTrust')]"
                 }
-            }] 
+            }]
         }
     },
     {
@@ -332,7 +270,6 @@
       "location": "[variables('location')]",
       "dependsOn": [
          "[concat('Microsoft.Network/routeTables/', variables('routeTableUntrust'))]",
-         "[concat('Microsoft.Network/routeTables/', variables('routeTableNAT'))]",
          "[concat('Microsoft.Network/routeTables/', variables('routeTableWeb'))]",
          "[concat('Microsoft.Network/routeTables/', variables('routeTableDB'))]",
          "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgname-mgmt'))]"
@@ -383,18 +320,6 @@
             "properties": {
             "addressPrefix": "[variables('subnet4Prefix')]"
             }
-          },
-          {
-           "name": "[variables('subnet5Name')]",
-            "properties": {
-            "addressPrefix": "[variables('subnet5Prefix')]",
-            "networkSecurityGroup": {
-                   "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgname-mgmt'))]"
-            },
-            "routeTable": {
-                  "id": "[resourceId('Microsoft.Network/routeTables', variables('routeTableNAT'))]"
-              }
-            }
           }
         ]
       }
@@ -429,7 +354,7 @@
           ]
         }
     },
-    { 
+    {
         "apiVersion": "[variables('apiVersion')]",
         "type": "Microsoft.Network/networkInterfaces",
         "name": "[concat('FW',variables('nicName'), '1')]",
@@ -448,6 +373,9 @@
               "properties": {
                 "privateIPAllocationMethod": "Static",
                 "privateIPAddress": "[variables('FWPrivateIPAddressUntrust')]",
+                "publicIPAddress": {
+                     "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('dppublicIPName'))]"
+                },
                 "subnet": {
                   "id": "[variables(concat('subnet','1','Ref'))]"
                 }
@@ -506,7 +434,7 @@
                 }
               }
             }
-          ] 
+          ]
         }
     },
     {
@@ -532,41 +460,10 @@
                 }
               }
             }
-          ] 
-        }
-    },
-    {     
-        "apiVersion": "[variables('apiVersion')]",
-        "type": "Microsoft.Network/networkInterfaces",
-        "name": "[concat('NAT', variables('nicName'), '0')]",
-        "location": "[variables('location')]",
-        "dependsOn": [
-            "[concat('Microsoft.Network/publicIPAddresses/', variables('natPublicIPName'))]",
-            "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
-        ],      
-        "tags": {
-          "displayName": "[concat('NetworkInterfaces', 'NAT')]"
-        },        
-        "properties": {
-          "enableIPForwarding": true,
-          "ipConfigurations": [
-            {
-              "name": "[concat('ipconfig', 'NAT')]",
-              "properties": {
-                "privateIPAllocationMethod": "Static",
-                "privateIPAddress": "[variables('NATPrivateIPAddress')]",
-                "publicIPAddress": {
-                     "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('natPublicIPName'))]"
-                },
-                "subnet": {
-                  "id": "[variables(concat('subnet','5','Ref'))]"
-                }
-              }
-            }
           ]
         }
     },
-    {
+      {
         "apiVersion": "[variables('apiVersion')]",
         "type": "Microsoft.Compute/virtualMachines",
         "name": "[variables('fwVmName')]",
@@ -625,52 +522,6 @@
         }
     },
     {
-        "apiVersion": "[variables('apiVersion')]",
-        "type": "Microsoft.Compute/virtualMachines",
-        "name": "[variables('nat-vm-name')]",
-        "location": "[variables('location')]",
-        "dependsOn": [
-           "[concat('Microsoft.Network/networkInterfaces/', 'FW', variables('nicName'), '0')]",
-           "[concat('Microsoft.Network/networkInterfaces/', 'FW',  variables('nicName'), '1')]",
-           "[concat('Microsoft.Network/networkInterfaces/', 'FW' , variables('nicName'), '2')]",
-           "[concat('Microsoft.Network/networkInterfaces/', 'NAT', variables('nicName'), '0')]"
-        ],
-        "properties": {
-            "hardwareProfile": {
-                "vmSize": "[variables('gvmSize')]"
-            },
-            "osProfile": {
-                "computername": "nat-vm",
-                "adminUsername": "[variables('adminUsername')]",
-                "adminPassword": "[variables('adminPassword')]"
-            },
-            "storageProfile": {
-                "imageReference": {
-                    "publisher": "[variables('imagePublisher')]",
-                    "offer": "[variables('imageOffer')]",
-                    "sku": "[variables('ubuntuOSVersion')]",
-                    "version": "latest"
-                },
-                "osDisk": {
-                    "name": "nat-vm-osdisk",
-                    "vhd": {
-                        "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('strAccountName')), variables('apiVersion')).primaryEndpoints.blob,'vhds/osdisk-NAT.vhd')]"
-                    },
-                    "caching": "ReadWrite",
-                    "createOption": "FromImage"
-                }
-            },
-            "networkProfile": {
-               "networkInterfaces": [
-                 {
-                   "id": "[resourceId('Microsoft.Network/networkInterfaces',concat('NAT', variables('nicName'),'0'))]",
-                   "properties": { "primary": true}
-                 }
-                 ]
-               }
-           }
-    },
-    {  
         "apiVersion": "[variables('apiVersion')]",
         "type": "Microsoft.Compute/virtualMachines",
         "name": "[variables('web-vm-name')]",
@@ -763,23 +614,6 @@
         }
     },
     {
-        "name": "[concat(variables('nat-vm-name'),'/nat-vm-customscript')]",
-        "type": "Microsoft.Compute/virtualMachines/extensions",
-        "apiVersion": "[variables('apiVersion')]",
-        "location": "[variables('location')]",
-        "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', variables('nat-vm-name'))]"],
-        "properties":
-         {
-              "publisher": "Microsoft.Azure.Extensions",
-              "type": "CustomScript",
-              "typeHandlerVersion": "2.0",
-              "settings": {
-                 "fileUris": ["https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/two-tier-sample/iptables-ipsec-nat.sh"],
-                 "commandToExecute": "[concat('/bin/bash iptables-ipsec-nat.sh ', variables('IPAddressPrefix'))]"
-             }
-        }
-    },
-    {
         "name": "[concat(variables('db-vm-name'),'/db-vm-customscript')]",
         "type": "Microsoft.Compute/virtualMachines/extensions",
         "apiVersion": "[variables('apiVersion')]",
@@ -813,7 +647,7 @@
               "typeHandlerVersion": "2.0",
               "settings": {
                   "fileUris": ["https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/two-tier-sample/config-fw.py"],
-                  "commandToExecute": "[concat('python config-fw.py ', reference(variables('natPublicIPName')).dnsSettings.fqdn)]"
+                  "commandToExecute": "[concat('python config-fw.py ', reference(variables('dpPublicIPName')).dnsSettings.fqdn)]"
              }
         }
     },
@@ -832,10 +666,10 @@
 
         ],
 
-        "properties": 
+        "properties":
         {
             "mode": "Incremental",
-            "template": 
+            "template":
             {
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
@@ -864,10 +698,10 @@
             "[concat('Microsoft.Resources/deployments/', 'DBlinkedTemplate')]"
         ],
 
-        "properties": 
+        "properties":
         {
             "mode": "Incremental",
-            "template": 
+            "template":
             {
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
@@ -898,7 +732,7 @@
       },
       "WebServerURL":{
           "type": "string",
-          "value":"[concat('http://',reference(variables('natPublicIPName')).dnsSettings.fqdn)]"
+          "value":"[concat('http://',reference(variables('dpPublicIPName')).dnsSettings.fqdn)]"
       }
   }
 }

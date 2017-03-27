@@ -7,12 +7,12 @@
     },
     "StorageAccountType":{
         "value": "Standard_LRS"
-    }
+    },
     "FirewallDnsName": {
       "value": "pan-fw"
     },
-    "NatDnsName": {
-      "value": "pan-nat"
+    "DPDnsName": {
+      "value": "pan-dp"
     },
     "FirewallVmName": {
       "value": "pan-fw"
@@ -28,4 +28,3 @@
     }
   }
 }
-
