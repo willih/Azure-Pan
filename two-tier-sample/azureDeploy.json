@@ -15,10 +15,17 @@
       },
       "defaultValue": "pan-fw"
     },
+    "DPDnsName": {
+      "type": "string",
+      "metedata": {
+        "description": "Unique DNS name doe the Public IP for the firewall's Data Plane interface."
+      },
+      "defaultValue": "pan-dp"
+    },
     "FirewallVmName": {
       "type": "string",
       "metadata": {
-        "description": "Name of VM-Seris VM in the portal"
+        "description": "Name of VM-Series VM in the portal"
       },
       "defaultValue": "pan-fw"
     },
