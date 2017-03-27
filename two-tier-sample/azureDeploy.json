@@ -276,10 +276,10 @@
       "name": "[variables('virtualNetworkName')]",
       "location": "[variables('location')]",
       "dependsOn": [
-         "[concat('Microsoft.Network/routeTables/', variables('routeTableUntrust'))]",
          "[concat('Microsoft.Network/routeTables/', variables('routeTableWeb'))]",
          "[concat('Microsoft.Network/routeTables/', variables('routeTableDB'))]",
-         "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgname-mgmt'))]"
+         "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgname-mgmt'))]",
+                  "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgname-untrust'))]"
       ],
       "properties": {
         "mode": "Incremental",
