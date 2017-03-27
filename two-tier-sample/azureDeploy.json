@@ -17,7 +17,7 @@
     },
     "DPDnsName": {
       "type": "string",
-      "metedata": {
+      "metadata": {
         "description": "Unique DNS name doe the Public IP for the firewall's Data Plane interface."
       },
       "defaultValue": "pan-dp"
