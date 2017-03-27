@@ -106,12 +106,12 @@
     "virtualNetworkName": "[concat(variables('vnetName'), variables('unqString'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "nsgname-mgmt": "DefaultNSG",
+    "nsgname-untrust": "DefaultNSG",
     "subnet0Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet0Name'))]",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "subnet2Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet2Name'))]",
     "subnet3Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet3Name'))]",
     "subnet4Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet4Name'))]",
-    "subnet5Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet5Name'))]",
     "routeTableWeb": "Web-to-FW",
     "routeTableDB": "DB-to-FW",
     "routeTableTrust": "Trust-to-intranetwork",
@@ -302,9 +302,9 @@
             "name": "[variables('subnet1Name')]",
             "properties": {
             "addressPrefix": "[variables('subnet1Prefix')]",
-            "routeTable": {
-                  "id": "[resourceId('Microsoft.Network/routeTables', variables('routeTableUntrust'))]"
-              }
+            "networkSecurityGroup": {
+                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgname-untrust'))]"
+            }
             }
           },
           {
