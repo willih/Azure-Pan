@@ -5,9 +5,6 @@
     "StorageAccountName": {
       "value": "pantestdrivetest"
     },
-    "StorageAccountType":{
-        "value": "Standard_LRS"
-    },
     "FirewallDnsName": {
       "value": "pan-fw"
     },
