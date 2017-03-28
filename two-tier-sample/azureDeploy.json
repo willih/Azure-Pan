@@ -15,12 +15,12 @@
       },
       "defaultValue": "pan-fw"
     },
-    "DPDnsName": {
+    "WebServerDnsName": {
       "type": "string",
       "metadata": {
         "description": "Unique DNS name doe the Public IP for the firewall's Data Plane interface."
       },
-      "defaultValue": "pan-dp"
+      "defaultValue": "pan-web"
     },
     "FirewallVmName": {
       "type": "string",
@@ -69,10 +69,10 @@
     "gvmSize": "Standard_A1",
     "fromGatewayLogin": "[parameters('FromGatewayLogin')]",
     "IPAddressPrefix": "[parameters('IpAddressPrefix')]",
-    "dpPublicIPName": "dpPublicIP",
+    "WebPublicIPName": "WebPublicIP",
     "fwpublicIPName": "fwPublicIP",
     "dnsNameForFwPublicIP": "[parameters('FirewallDnsName')]",
-    "dnsNameForDPPublicIP": "[parameters('DPDnsName')]",
+    "dnsNameForWebPublicIP": "[parameters('WebServerDnsName')]",
     "ubuntuOSVersion": "16.04-LTS",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
@@ -116,7 +116,7 @@
     "routeTableDB": "DB-to-FW",
     "routeTableTrust": "Trust-to-intranetwork",
     "dnsnamefw": "[concat(variables('dnsNameForFwPublicIP'), variables('unqString'))]",
-    "dnsnamedp": "[concat(variables('dnsNameForDPPublicIP'), variables('unqString'))]",
+    "dnsnameweb": "[concat(variables('dnsNameForWebPublicIP'), variables('unqString'))]",
     "web-vm-name": "webserver-vm",
     "db-vm-name": "database-vm"
 
@@ -147,12 +147,12 @@
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('dpPublicIPName')]",
+      "name": "[variables('WebPublicIPName')]",
       "location": "[variables('location')]",
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[variables('dnsnamedp')]"
+          "domainNameLabel": "[variables('dnsnameweb')]"
         }
       }
     },
@@ -381,7 +381,7 @@
                 "privateIPAllocationMethod": "Static",
                 "privateIPAddress": "[variables('FWPrivateIPAddressUntrust')]",
                 "publicIPAddress": {
-                     "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('dppublicIPName'))]"
+                     "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('WebPublicIPName'))]"
                 },
                 "subnet": {
                   "id": "[variables(concat('subnet','1','Ref'))]"
@@ -654,7 +654,7 @@
               "typeHandlerVersion": "2.0",
               "settings": {
                   "fileUris": ["https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/two-tier-sample/config-fw.py"],
-                  "commandToExecute": "[concat('python config-fw.py ', reference(variables('dpPublicIPName')).dnsSettings.fqdn)]"
+                  "commandToExecute": "[concat('python config-fw.py ', reference(variables('WebPublicIPName')).dnsSettings.fqdn)]"
              }
         }
     },
@@ -739,7 +739,7 @@
       },
       "WebServerURL":{
           "type": "string",
-          "value":"[concat('http://',reference(variables('dpPublicIPName')).dnsSettings.fqdn)]"
+          "value":"[concat('http://',reference(variables('WebPublicIPName')).dnsSettings.fqdn)]"
       }
   }
 }

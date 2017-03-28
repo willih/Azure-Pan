@@ -11,8 +11,8 @@
     "FirewallDnsName": {
       "value": "pan-fw"
     },
-    "DPDnsName": {
-      "value": "pan-dp"
+    "WebServerDnsName": {
+      "value": "pan-web"
     },
     "FirewallVmName": {
       "value": "pan-fw"
