@@ -46,15 +46,7 @@
         "description": "Restrict login IP address"
       },
       "defaultValue": "0.0.0.0/0"
-    },
-    "IpAddressPrefix": {
-      "type": "string",
-      "defaultValue": "10.5",
-      "metadata": {
-        "description": "Default IP address prefix"
-      }
     }
-
   },
   "variables": {
     "apiVersion": "2015-05-01-preview",
@@ -68,7 +60,7 @@
     "fwVmSize": "[parameters('FirewallVmSize')]",
     "gvmSize": "Standard_A1",
     "fromGatewayLogin": "[parameters('FromGatewayLogin')]",
-    "IPAddressPrefix": "[parameters('IpAddressPrefix')]",
+    "IPAddressPrefix": "10.5",
     "WebPublicIPName": "WebPublicIP",
     "fwpublicIPName": "fwPublicIP",
     "dnsNameForFwPublicIP": "[parameters('FirewallDnsName')]",
