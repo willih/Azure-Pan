@@ -2,7 +2,7 @@
 
 This ARM template deploys a VM-Series next generation firewall VM in an Azure resource group alongwith the following resources similar to a typical two tier architecture. It also adds the relevant User-Defined Route (UDR) tables to send all traffic through the VM-Series firewall.
 
-# Replaced aka Not needed
+# Deprecated, Replaced aka Not needed
 
 This template is not needed anymore since Azure supports multiple public IP's since February 2017. This feature in Azure allows you to assign 1/more public IP's to any NIC of a multi-NIC VM like VM-Series. For simple, pilot or PoC, scenarios you can use the [Two-tier Sample template](https://github.com/PaloAltoNetworks/azure/tree/master/two-tier-sample). And, for other use cases that need a scale out architecture, use the [Application Gateway Template](https://github.com/PaloAltoNetworks/azure-applicationgateway). 
 
