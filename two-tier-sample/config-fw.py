@@ -308,7 +308,11 @@ def config_wp(nat_fqdn):
             break
         else:
             logger.info("[ERROR]: Demo database not found. {}".format(output))
-            return 'false'
+            if (i<10):
+                i+=1
+                break
+            else:
+                return 'false'
 
 
     #Then continue to finish wordpress setup
