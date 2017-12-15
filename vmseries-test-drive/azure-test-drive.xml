@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<config version="7.1.0" urldb="paloaltonetworks">
+<config version="8.0.0" urldb="paloaltonetworks">
   <mgt-config>
     <users>
       <entry name="pan-testdrive">
@@ -93,14 +93,21 @@
                 <dhcp-client>
                   <create-default-route>no</create-default-route>
                 </dhcp-client>
+                <ipv6>
+                  <neighbor-discovery>
+                    <router-advertisement>
+                      <enable>no</enable>
+                    </router-advertisement>
+                  </neighbor-discovery>
+                </ipv6>
+                <ndp-proxy>
+                  <enabled>no</enabled>
+                </ndp-proxy>
+                <lldp>
+                  <enable>no</enable>
+                </lldp>
               </layer3>
-            </entry>
-            <entry name="ethernet1/3">
-              <layer3>
-                <dhcp-client>
-                  <create-default-route>no</create-default-route>
-                </dhcp-client>
-              </layer3>
+              <link-state>auto</link-state>
             </entry>
           </ethernet>
         </interface>
@@ -274,7 +281,6 @@
             <interface>
               <member>ethernet1/1</member>
               <member>ethernet1/2</member>
-              <member>ethernet1/3</member>
             </interface>
             <ecmp>
               <algorithm>
@@ -356,6 +362,11 @@
               <accept-dhcp-domain>no</accept-dhcp-domain>
             </dhcp-client>
           </type>
+          <server-verification>yes</server-verification>
+          <motd-and-banner>
+            <motd-enable>yes</motd-enable>
+            <message>FW Config: 20171215</message>
+          </motd-and-banner>
         </system>
         <setting>
           <config>
@@ -398,9 +409,7 @@
             </entry>
             <entry name="db">
               <network>
-                <layer3>
-                  <member>ethernet1/3</member>
-                </layer3>
+                <layer3/>
               </network>
             </entry>
           </zone>
@@ -928,6 +937,13 @@
               <ip-netmask>10.5.4.5</ip-netmask>
             </entry>
           </address>
+          <import>
+            <network>
+              <interface>
+                <member>ethernet1/2</member>
+              </interface>
+            </network>
+          </import>
         </entry>
       </vsys>
     </entry>
