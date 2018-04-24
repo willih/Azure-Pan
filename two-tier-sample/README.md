@@ -3,6 +3,8 @@
 
 This ARM template deploys a VM-Series next generation firewall VM in an Azure resource group along with a web and db server similar to a typical two tier architecture. It also adds the relevant User-Defined Route (UDR) tables to send all traffic through the VM-Series firewall.
 
+![alt_text](azure-topology.png?raw=true)
+
 # <a href="https://github.com/PaloAltoNetworks/azure/blob/master/two-tier-sample/Azure_ARM_template_deployment_guide.pdf">Deployment Guide</a> 
 
 # **Support Policy**

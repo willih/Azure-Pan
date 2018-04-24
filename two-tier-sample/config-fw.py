@@ -26,6 +26,7 @@ import subprocess
 import os
 import logging
 import urllib2
+import socket
 from socket import gethostname, gethostbyname
 import sys
 import ssl
@@ -41,7 +42,10 @@ logger.setLevel(logging.INFO)
 #Some global variables....yikes!
 ##What is management IP address of eth0?
 #This might change if we have multiple interfaces in the web-server
-myIp = gethostbyname(gethostname())
+#myIp = gethostbyname(gethostname())
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+myIp = s.getsockname()[0]
 
 #We know that the FW Mgmt private IP will be statically set to x.x.0.4
 MgmtIp =".".join((myIp.split('.')[0], myIp.split('.')[1], '0', '4'))
@@ -308,7 +312,11 @@ def config_wp(nat_fqdn):
             break
         else:
             logger.info("[ERROR]: Demo database not found. {}".format(output))
-            return 'false'
+            if (i<10):
+                i+=1
+                break
+            else:
+                return 'false'
 
 
     #Then continue to finish wordpress setup

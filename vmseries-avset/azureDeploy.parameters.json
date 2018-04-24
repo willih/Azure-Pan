@@ -138,7 +138,7 @@
 		"metadata": {
 			"artifactsBaseUrl": ""
 		},
-		"defaultValue": "https://raw.githubusercontent.com/saurabhtrekker/UI1/master"
+		"defaultValue": "https://raw.githubusercontent.com/PaloAltoNetworks/azure/master/vmseries-avset"
 	},
     "virtualNetworkName": {
       "type": "string",
