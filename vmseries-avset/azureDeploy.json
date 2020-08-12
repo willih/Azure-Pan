@@ -149,7 +149,7 @@
     },
     "virtualNetworkAddressPrefix": {
       "type": "string",
-      "defaultValue": "192.168.0.0/16",
+      "defaultValue": "10.201.224.0/19",
       "metadata": {
         "description": "Virtual network address CIDR"
       }
@@ -177,42 +177,42 @@
     },
     "subnet0Prefix": {
       "type": "string",
-      "defaultValue": "192.168.0.0/24",
+      "defaultValue": "10.201.224.0/29",
       "metadata": {
         "description": "Mgmt subnet CIDR"
       }
     },
     "subnet1Prefix": {
       "type": "string",
-      "defaultValue": "192.168.1.0/24",
+      "defaultValue": "10.201.224.32/28",
       "metadata": {
         "description": "Untrust subnet CIDR"
       }
     },
     "subnet2Prefix": {
       "type": "string",
-      "defaultValue": "192.168.2.0/24",
+      "defaultValue": "10.201.224.16/28",
       "metadata": {
         "description": "Trust subnet CIDR"
       }
     },
     "subnet0StartAddress": {
       "type": "string",
-      "defaultValue": "192.168.0.4",
+      "defaultValue": "10.201.224.4",
       "metadata": {
         "description": "Mgmt subnet start address"
       }
     },
     "subnet1StartAddress": {
       "type": "string",
-      "defaultValue": "192.168.1.4",
+      "defaultValue": "10.201.224.36",
       "metadata": {
         "description": "Untrust subnet start address"
       }
     },
     "subnet2StartAddress": {
       "type": "string",
-      "defaultValue": "192.168.2.4",
+      "defaultValue": "10.201.224.20",
       "metadata": {
         "description": "Trust subnet start address"
       }
